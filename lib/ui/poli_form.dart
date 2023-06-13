@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:klinik_app175b25/model/poli.dart';
+import 'package:klinik_app175b25/ui/poli_detail.dart';
 
 class PoliForm extends StatefulWidget {
   const PoliForm({Key? key}) : super(key: key);
@@ -10,6 +12,7 @@ class PoliForm extends StatefulWidget {
 
 class _PoliFormState extends State<PoliForm> {
   final _formkey = GlobalKey<FormState>();
+  final _namaPoliCtrl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +23,30 @@ class _PoliFormState extends State<PoliForm> {
           key: _formkey,
           child: Column(
             children: [
-              const TextField(
-                  decoration: InputDecoration(labelText: "Nama Poli")),
+              _fieldNamaPoli(),
               const SizedBox(height: 20),
-              ElevatedButton(onPressed: () {}, child: const Text("Simpan"))
+              _tombolSimpan()
             ],
           ),
         ),
       ),
     );
+  }
+
+  _fieldNamaPoli() {
+    return TextField(
+      decoration: const InputDecoration(labelText: "Nama Poli"),
+      controller: _namaPoliCtrl,
+    );
+  }
+
+  _tombolSimpan() {
+    return ElevatedButton(
+        onPressed: () {
+          Poli poli = Poli(namaPoli: _namaPoliCtrl.text);
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => PoliDetail(poli: poli)));
+        },
+        child: const Text("Simpan"));
   }
 }
